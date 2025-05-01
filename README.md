@@ -67,7 +67,3 @@ pnpm dev
 - `npm run build` - Build the application for production
 - `npm run start` - Start the production server
 - `npm run lint` - Run ESLint
-
-## License
-
-[MIT](LICENSE) 
