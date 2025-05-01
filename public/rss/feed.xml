@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ResumeAI - AI-Powered Resume ATS Tracker &amp; Optimizer</title>
+    <link>https://resume-ats-tracker.vercel.app</link>
+    <description>Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.</description>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Jan 2024 12:00:00 GMT</lastBuildDate>
+    <atom:link href="https://resume-ats-tracker.vercel.app/rss/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Introducing ResumeAI: AI-Powered Resume Optimization</title>
+      <link>https://resume-ats-tracker.vercel.app</link>
+      <guid>https://resume-ats-tracker.vercel.app</guid>
+      <pubDate>Mon, 01 Jan 2024 12:00:00 GMT</pubDate>
+      <description>
+        <![CDATA[
+          <p>ResumeAI has launched its AI-powered resume optimization platform, helping job seekers improve their chances of getting past ATS systems and landing interviews.</p>
+          <p>Our advanced LLM-powered platform analyzes your resume against job descriptions with unmatched precision. Get personalized recommendations, keyword optimization, and intelligent insights to dramatically improve your chances of landing interviews and tracking application success.</p>
+        ]]>
+      </description>
+    </item>
+  </channel>
+</rss> 

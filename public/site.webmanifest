@@ -1,0 +1,18 @@
+{
+  "name": "ResumeAI - AI-Powered Resume ATS Tracker & Optimizer",
+  "short_name": "ResumeAI",
+  "description": "Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
+  "icons": [
+    {
+      "src": "/resume-logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#38bdf8",
+  "background_color": "#0a0a1f",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+} 
