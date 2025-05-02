@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -19,6 +19,16 @@ export function FileUpload() {
   const [jobDescription, setJobDescription] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
   const [uploadStep, setUploadStep] = useState(0)
+  const [uploadTimer, setUploadTimer] = useState<NodeJS.Timeout | null>(null)
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    return () => {
+      if (uploadTimer) {
+        clearInterval(uploadTimer);
+      }
+    };
+  }, [uploadTimer]);
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -43,26 +53,53 @@ export function FileUpload() {
     setUploadStep(1);
 
     try {
-      // Set steps for visual feedback
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setUploadStep(2);
+      // Create a timer that advances steps periodically
+      // This ensures the loading steps look smooth and linear
+      const timer = setInterval(() => {
+        setUploadStep(prev => {
+          // Only auto-advance up to step 3 (step 4 is completion)
+          if (prev < 3) {
+            return prev + 1;
+          }
+          return prev;
+        });
+      }, 1500); // Adjust timing as needed for a good user experience
+      
+      setUploadTimer(timer);
       
       // Call API
       const result = await evaluateResume(file, jobDescription);
       
+      // Clear the timer when API call completes
+      clearInterval(timer);
+      setUploadTimer(null);
+      
       // Store result
       localStorage.setItem('resumeAnalysisResult', JSON.stringify(result));
       
-      setUploadStep(3);
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Ensure we've shown at least step 3 before completion
+      if (uploadStep < 3) {
+        setUploadStep(3);
+        await new Promise(resolve => setTimeout(resolve, 800));
+      }
+      
+      // Set final step and wait before redirecting
       setUploadStep(4);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       // Navigate to results
       router.push("/scores");
     } catch (error) {
+      // Clear any running timer
+      if (uploadTimer) {
+        clearInterval(uploadTimer);
+        setUploadTimer(null);
+      }
+      
       console.error('Error during evaluation:', error);
       toast.error('Failed to evaluate resume. Please try again.');
       setIsProcessing(false);
+      setUploadStep(0);
     }
   }
 

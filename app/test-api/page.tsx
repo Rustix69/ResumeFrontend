@@ -15,7 +15,7 @@ export default function TestApiPage() {
 
     try {
       // Use environment variable for backend URL
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${backendUrl}/api/health`)
       
       // Log response status for debugging

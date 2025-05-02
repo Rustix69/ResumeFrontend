@@ -2,6 +2,7 @@
 
 import { CheckCircle, Loader2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Progress } from "@/components/ui/progress"
 
 interface ProcessingAnimationProps {
   currentStep: number
@@ -14,6 +15,9 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
     { id: 3, name: "Comparing with job description" },
     { id: 4, name: "Generating report" },
   ]
+
+  // Calculate progress percentage based on current step
+  const progressPercentage = Math.max(5, Math.min(100, (currentStep / steps.length) * 100));
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -37,15 +41,6 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
       animate="visible"
       variants={containerVariants}
     >
-      <motion.h3 
-        className="text-xl font-bold text-white mb-8 text-center font-founder-grotesk"
-        variants={itemVariants}
-      >
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
-          Processing Your Resume
-        </span>
-      </motion.h3>
-
       <div className="space-y-8">
         {steps.map((step) => (
           <motion.div 
@@ -104,9 +99,10 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
                     backgroundColor: currentStep > step.id 
                       ? "linear-gradient(to bottom, #38bdf8, #818cf8)" 
                       : "rgba(255, 255, 255, 0.1)",
-                    height: 48
+                    height: 48,
+                    transition: { duration: 0.5 }
                   }}
-                  transition={{ delay: 0.5, duration: 0.8 }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
                 />
               )}
             </div>
@@ -125,20 +121,40 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
               </motion.p>
               <AnimatePresence>
                 {currentStep === step.id && (
-                  <motion.p 
-                    className="text-sm text-[#38bdf8] font-founder-grotesk"
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <motion.span
-                      animate={{ opacity: [0.5, 1, 0.5] }}
-                      transition={{ repeat: Infinity, duration: 1.5 }}
+                  <motion.div className="flex items-center">
+                    <motion.p 
+                      className="text-sm text-[#38bdf8] font-founder-grotesk mr-2"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3 }}
                     >
-                      In progress...
-                    </motion.span>
-                  </motion.p>
+                      <motion.span
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ repeat: Infinity, duration: 1.5 }}
+                      >
+                        In progress...
+                      </motion.span>
+                    </motion.p>
+                    {/* Small progress indicator for current step */}
+                    <motion.div 
+                      className="w-16 h-1 bg-white/10 rounded-full overflow-hidden"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <motion.div 
+                        className="h-full bg-[#38bdf8]"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "100%" }}
+                        transition={{ 
+                          repeat: Infinity,
+                          duration: 2,
+                          ease: "linear"
+                        }}
+                      />
+                    </motion.div>
+                  </motion.div>
                 )}
                 {currentStep > step.id && (
                   <motion.p 
@@ -177,7 +193,7 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
               transition={{ repeat: Infinity, duration: 2 }}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
-                Analysis complete! Redirecting to results...
+                Analysis complete! Redirecting to Results Page...
               </span>
             </motion.p>
             <div className="mt-4 h-2 w-full bg-white/5 rounded-full overflow-hidden">
