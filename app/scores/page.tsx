@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ScoreCard } from "@/components/score-card"
@@ -5,37 +8,148 @@ import { ScoreTable } from "@/components/score-table"
 import { ArrowLeft, Download, Share2 } from "lucide-react"
 import { SignUpButton } from "@/components/sign-up-button"
 import Script from "next/script"
-import { Metadata } from "next"
+import { LoadingAnalysis } from "@/components/loading-analysis"
+import { toast } from "sonner"
 
-export const metadata: Metadata = {
-  title: "Resume Analysis Results - ResumeAI",
-  description: "View your personalized resume analysis results. Get insights on keyword matching, experience relevance, and recommendations to improve your resume for ATS systems.",
-  openGraph: {
-    title: "Resume Analysis Results - ResumeAI",
-    description: "View your personalized resume analysis results. Get insights on keyword matching, experience relevance, and recommendations to improve your resume for ATS systems.",
-    url: "/scores",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  }
+// Define the response structure to type check our data
+interface SkillBreakdown {
+  keyword: string;
+  found: string | boolean;
+  comment: string;
+}
+
+interface AnalysisSection {
+  score: number;
+  summary: string;
+  breakdown: SkillBreakdown[];
+}
+
+interface AnalysisResult {
+  technical_skills: AnalysisSection;
+  projects_experience: AnalysisSection;
+  education_achievements: AnalysisSection;
+  formatting_compatibility: AnalysisSection;
+  soft_skills: AnalysisSection;
+  final_score: number;
+  summary: string;
 }
 
 export default function ScoresPage() {
+  const [analysisData, setAnalysisData] = useState<AnalysisResult | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  
+  useEffect(() => {
+    // Load the data from localStorage
+    try {
+      const storedResult = localStorage.getItem('resumeAnalysisResult');
+      if (storedResult) {
+        const parsedData = JSON.parse(storedResult);
+        
+        // Validate the data structure
+        if (!validateAnalysisResult(parsedData)) {
+          toast.error("Invalid data format received from API");
+          setIsLoading(false);
+          return;
+        }
+        
+        setAnalysisData(parsedData);
+      } else {
+        // If no data in localStorage, check if we should redirect
+        toast.error("No analysis data found. Please submit a resume first.");
+      }
+    } catch (error) {
+      console.error('Error loading analysis data:', error);
+      toast.error('Error loading analysis results.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Validate the analysis result structure
+  const validateAnalysisResult = (data: any): data is AnalysisResult => {
+    if (!data) return false;
+    
+    // Check main sections
+    const requiredSections = [
+      'technical_skills', 
+      'projects_experience', 
+      'education_achievements', 
+      'formatting_compatibility', 
+      'soft_skills'
+    ];
+    
+    for (const section of requiredSections) {
+      if (!data[section] || 
+          typeof data[section].score !== 'number' || 
+          typeof data[section].summary !== 'string' ||
+          !Array.isArray(data[section].breakdown)) {
+        console.error(`Invalid or missing section: ${section}`, data[section]);
+        return false;
+      }
+    }
+    
+    // Check final score and summary
+    if (typeof data.final_score !== 'number' || typeof data.summary !== 'string') {
+      console.error('Missing final_score or summary');
+      return false;
+    }
+    
+    return true;
+  };
+
+  // Show loading state if data is not ready
+  if (isLoading) {
+    return <LoadingAnalysis step={3} />;
+  }
+
+  // If no data is found after loading
+  if (!analysisData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a1f] via-[#1a103c] to-[#2d1b4e] text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">No Analysis Data Found</h1>
+          <p className="mb-8">Please upload a resume and job description first.</p>
+          <Link href="/" className="bg-gradient-to-r from-[#38bdf8] to-[#818cf8] text-white px-6 py-3 rounded-md">
+            Go to Upload Page
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
+  // Helper function to determine status display format
+  const getStatusFromFound = (found: string | boolean) => {
+    if (typeof found === 'boolean') {
+      return found ? "Yes" : "No";
+    }
+    if (found === "Found") return "Yes";
+    if (found === "Partial") return "Partial";
+    return "No";
+  };
+
+  // Helper function to convert found to boolean or partial for component
+  const getFoundValue = (found: string | boolean) => {
+    if (typeof found === 'boolean') {
+      return found;
+    }
+    if (found === "Found") return true;
+    if (found === "Partial") return "partial";
+    return false;
+  };
+
   // JSON-LD schema for the scores page
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Resume Analysis Results - ResumeAI",
-    "description": "View your personalized resume analysis results. Get insights on keyword matching, experience relevance, and recommendations to improve your resume for ATS systems.",
+    "description": analysisData.summary,
     "logo": process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/resume-logo.svg` : "https://resume-ats-tracker.vercel.app/resume-logo.svg",
     "mainEntity": {
       "@type": "Report",
       "name": "Resume ATS Analysis Report",
       "about": {
         "@type": "Thing",
-        "name": "Resume Analysis for Blockchain Developer Role"
+        "name": "Resume Analysis"
       },
       "reportNumber": "RES-" + new Date().toISOString().split('T')[0],
       "dateCreated": new Date().toISOString(),
@@ -113,248 +227,85 @@ export default function ScoresPage() {
               <div>
                 <h1 className="text-2xl md:text-3xl font-bold text-white font-founder-grotesk tracking-tight">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
-                    ATS Resume Match Evaluation for:
-                  </span>{" "}
-                  Rust Blockchain Developer Role
+                    ATS Resume Match Analysis
+                  </span>
                 </h1>
-                <p className="text-white/50 mt-2 font-founder-grotesk">Analyzed on {new Date().toLocaleDateString()}</p>
+                <p className="text-white/50 mt-2 font-founder-grotesk">Analyzed on {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
-              <div className="flex space-x-4 mt-4 md:mt-0">
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-2 border-[#38bdf8] text-black hover:bg-[#38bdf8]/10 font-founder-grotesk"
-                >
-                  <Download className="h-4 w-4" /> Download PDF
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex items-center gap-2 border-[#818cf8] text-black hover:bg-[#818cf8]/10 font-founder-grotesk"
-                >
-                  <Share2 className="h-4 w-4" /> Share
-                </Button>
-              </div>
+              
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-              <ScoreCard title="Final ATS Score" score="88" maxScore="100" color="#8b5cf6" />
-              <ScoreCard title="Keywords Match" score="34" maxScore="40" color="#38bdf8" />
-              <ScoreCard title="Experience Relevance" score="27" maxScore="30" color="#818cf8" />
-              <ScoreCard title="Education & Skills" score="27" maxScore="30" color="#ec4899" />
+              <ScoreCard title="Final ATS Score" score={analysisData.final_score.toString()} maxScore="100" color="#8b5cf6" />
+              <ScoreCard title="Technical Skills" score={analysisData.technical_skills.score.toString()} maxScore="40" color="#38bdf8" />
+              <ScoreCard title="Experience" score={analysisData.projects_experience.score.toString()} maxScore="30" color="#818cf8" />
+              <ScoreCard 
+                title="Education & Skills" 
+                score={(analysisData.education_achievements.score + analysisData.formatting_compatibility.score + analysisData.soft_skills.score).toString()} 
+                maxScore="30" 
+                color="#ec4899" 
+              />
             </div>
 
             <div className="space-y-8">
               <ScoreTable
-                title="1. Keywords & Technical Skills Match (Weight: 40%)"
-                score="34/40"
-                description="Strong technical match with Rust, systems, and blockchain-adjacent tech."
-                data={[
-                  {
-                    skill: "Rust",
-                    found: true,
-                    status: "Yes",
-                    comments: "Well-highlighted, strong focus",
-                  },
-                  {
-                    skill: "Blockchain",
-                    found: "partial",
-                    status: "Partial",
-                    comments: "Mentioned via NFT marketplace and smart contracts",
-                  },
-                  {
-                    skill: "Smart Contracts (Rust)",
-                    found: true,
-                    status: "Yes",
-                    comments: "Specifically for Solana, very relevant",
-                  },
-                  {
-                    skill: "Substrate / Cosmos SDK",
-                    found: false,
-                    status: "No",
-                    comments: "Consider mentioning if known",
-                  },
-                  {
-                    skill: "WebAssembly (WASM)",
-                    found: false,
-                    status: "No",
-                    comments: "Useful in blockchain environments",
-                  },
-                  {
-                    skill: "Cryptography (ECDSA, Hashes)",
-                    found: "partial",
-                    status: "Implicit",
-                    comments: "No direct mention, good to elaborate",
-                  },
-                  {
-                    skill: "Peer-to-Peer (P2P) systems",
-                    found: true,
-                    status: "Yes",
-                    comments: "BitTorrent project demonstrates this",
-                  },
-                  {
-                    skill: "Low-latency Systems",
-                    found: true,
-                    status: "Yes",
-                    comments: "Mentioned in context of trading platforms",
-                  },
-                  {
-                    skill: "DevOps / CI/CD / Docker",
-                    found: true,
-                    status: "Yes",
-                    comments: "Covered well under skills",
-                  },
-                  {
-                    skill: "MongoDB / ReactJS",
-                    found: true,
-                    status: "Yes",
-                    comments: "Good complementary stack",
-                  },
-                  {
-                    skill: "Assembly / x86",
-                    found: true,
-                    status: "Yes",
-                    comments: "Bonus for security and perf-critical code",
-                  },
-                  {
-                    skill: "Linux / Bash / Pentesting",
-                    found: true,
-                    status: "Yes",
-                    comments: "Good ops/security skills bonus",
-                  },
-                ]}
+                title="1. Technical Skills Match (Weight: 40%)"
+                score={`${analysisData.technical_skills.score}/40`}
+                description={analysisData.technical_skills.summary}
+                data={analysisData.technical_skills.breakdown.map(item => ({
+                  skill: item.keyword,
+                  found: getFoundValue(item.found),
+                  status: getStatusFromFound(item.found),
+                  comments: item.comment
+                }))}
               />
 
               <ScoreTable
-                title="2. Projects & Experience Relevance (Weight: 30%)"
-                score="27/30"
-                description="Excellent project alignment with blockchain and Rust backend development."
-                data={[
-                  {
-                    skill: "Rust Trading Match Platform",
-                    found: true,
-                    status: "Yes",
-                    comments: "Very strong relevance to trading/blockchain engines",
-                  },
-                  {
-                    skill: "NFT Marketplace with Rust backend",
-                    found: true,
-                    status: "Yes",
-                    comments: "Relevant and production-aligned",
-                  },
-                  {
-                    skill: "BitTorrent (P2P system)",
-                    found: true,
-                    status: "Yes",
-                    comments: "Shows understanding of distributed systems",
-                  },
-                  {
-                    skill: "Web scrapers (LinkedIn, NEET)",
-                    found: "partial",
-                    status: "Partial",
-                    comments: "Less relevant, but shows scraping skills",
-                  },
-                  {
-                    skill: "Work with startups as Founding Engineer",
-                    found: true,
-                    status: "Yes",
-                    comments: "Shows leadership and ownership",
-                  },
-                  {
-                    skill: "Solana Smart Contracts",
-                    found: true,
-                    status: "Yes",
-                    comments: "Blockchain-specific experience",
-                  },
-                ]}
+                title="2. Projects & Experience (Weight: 30%)"
+                score={`${analysisData.projects_experience.score}/30`}
+                description={analysisData.projects_experience.summary}
+                data={analysisData.projects_experience.breakdown.map(item => ({
+                  skill: item.keyword,
+                  found: getFoundValue(item.found),
+                  status: getStatusFromFound(item.found),
+                  comments: item.comment
+                }))}
               />
 
               <ScoreTable
                 title="3. Education & Achievements (Weight: 10%)"
-                score="10/10"
-                description="Excellent academic foundation."
-                data={[
-                  {
-                    skill: "Engineering Degree (JU)",
-                    found: true,
-                    status: "Yes",
-                    comments: "Well-known institute",
-                  },
-                  {
-                    skill: "IIT/NIT offers via JEE",
-                    found: true,
-                    status: "Yes",
-                    comments: "Competitive achievement",
-                  },
-                  {
-                    skill: "WBJEE Rank (1709)",
-                    found: true,
-                    status: "Yes",
-                    comments: "Adds credibility",
-                  },
-                ]}
+                score={`${analysisData.education_achievements.score}/10`}
+                description={analysisData.education_achievements.summary}
+                data={analysisData.education_achievements.breakdown.map(item => ({
+                  skill: item.keyword,
+                  found: getFoundValue(item.found),
+                  status: getStatusFromFound(item.found),
+                  comments: item.comment
+                }))}
               />
 
               <ScoreTable
-                title="4. Formatting, Clarity & ATS Compatibility (Weight: 10%)"
-                score="8/10"
-                description="Well-structured, minor improvements in formatting style possible."
-                data={[
-                  {
-                    skill: "PDF/Text readability",
-                    found: true,
-                    status: "Yes",
-                    comments: "Clean and parseable",
-                  },
-                  {
-                    skill: "Keywords present in bullet",
-                    found: true,
-                    status: "Yes",
-                    comments: "Yes",
-                  },
-                  {
-                    skill: "Contact info, LinkedIn, Git",
-                    found: true,
-                    status: "Yes",
-                    comments: "All present",
-                  },
-                  {
-                    skill: "Dates, locations formatted",
-                    found: "partial",
-                    status: "Partial",
-                    comments: 'Slightly inconsistent (e.g. "Jan\'24")',
-                  },
-                  {
-                    skill: "Sections logically ordered",
-                    found: true,
-                    status: "Yes",
-                    comments: "Yes",
-                  },
-                ]}
+                title="4. Formatting & ATS Compatibility (Weight: 10%)"
+                score={`${analysisData.formatting_compatibility.score}/10`}
+                description={analysisData.formatting_compatibility.summary}
+                data={analysisData.formatting_compatibility.breakdown.map(item => ({
+                  skill: item.keyword,
+                  found: getFoundValue(item.found),
+                  status: getStatusFromFound(item.found),
+                  comments: item.comment
+                }))}
               />
 
               <ScoreTable
-                title="5. Soft Skills / Extras (Weight: 10%)"
-                score="9/10"
-                description="Shows proactive, high-ownership mindset."
-                data={[
-                  {
-                    skill: "Leadership / Tech lead roles",
-                    found: true,
-                    status: "Yes",
-                    comments: "Multiple mentions",
-                  },
-                  {
-                    skill: "Remote collaboration",
-                    found: true,
-                    status: "Yes",
-                    comments: "Demonstrated with multiple teams",
-                  },
-                  {
-                    skill: "Entrepreneurial/startup mindset",
-                    found: true,
-                    status: "Yes",
-                    comments: 'Evident from "Founding Engineer" roles',
-                  },
-                ]}
+                title="5. Soft Skills (Weight: 10%)"
+                score={`${analysisData.soft_skills.score}/10`}
+                description={analysisData.soft_skills.summary}
+                data={analysisData.soft_skills.breakdown.map(item => ({
+                  skill: item.keyword,
+                  found: getFoundValue(item.found),
+                  status: getStatusFromFound(item.found),
+                  comments: item.comment
+                }))}
               />
             </div>
           </div>

@@ -1,6 +1,7 @@
-import type React from "react"
-import "./globals.css"
+import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import "./globals.css"
+import { Providers } from "./providers"
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -8,9 +9,9 @@ const inter = Inter({
   variable: '--font-inter',
 })
 
-export const metadata = {
-  title: "ResumeAI - AI-Powered Resume ATS Tracker & Optimizer",
-  description: "Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
+export const metadata: Metadata = {
+  title: "ResumeAI - Optimize Your Resume for ATS",
+  description: "AI-powered resume analysis to help you pass ATS screenings and get more interviews.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://resume-ats-tracker.vercel.app'),
   keywords: ["resume optimizer", "ATS tracker", "AI resume analysis", "job application tracker", "resume keywords", "interview success", "career tools"],
   authors: [{ name: 'ResumeAI' }],
@@ -92,12 +93,16 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-}) {
+}>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className={inter.className} suppressHydrationWarning={true}>{children}</body>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }

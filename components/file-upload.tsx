@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Upload, FileText, ArrowRight } from "lucide-react"
 import { ProcessingAnimation } from "@/components/processing-animation"
 import { motion, AnimatePresence } from "framer-motion"
+import { evaluateResume } from "@/app/services/resume-api"
+import { toast } from "sonner"
 
 export function FileUpload() {
   const router = useRouter()
@@ -20,35 +22,48 @@ export function FileUpload() {
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
+      setFile(e.target.files[0]);
     }
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    if (!file || !jobDescription) {
-      alert("Please upload a resume and paste a job description")
-      return
+    if (!file) {
+      toast.error("Please select a resume PDF file");
+      return;
     }
 
-    setIsProcessing(true)
+    if (!jobDescription) {
+      toast.error("Please enter a job description");
+      return;
+    }
 
-    // Simulate processing steps
-    setUploadStep(1)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setIsProcessing(true);
+    setUploadStep(1);
 
-    setUploadStep(2)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setUploadStep(3)
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setUploadStep(4)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // Navigate to results page
-    router.push("/scores")
+    try {
+      // Set steps for visual feedback
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setUploadStep(2);
+      
+      // Call API
+      const result = await evaluateResume(file, jobDescription);
+      
+      // Store result
+      localStorage.setItem('resumeAnalysisResult', JSON.stringify(result));
+      
+      setUploadStep(3);
+      await new Promise(resolve => setTimeout(resolve, 500));
+      setUploadStep(4);
+      
+      // Navigate to results
+      router.push("/scores");
+    } catch (error) {
+      console.error('Error during evaluation:', error);
+      toast.error('Failed to evaluate resume. Please try again.');
+      setIsProcessing(false);
+    }
   }
 
   if (isProcessing) {
