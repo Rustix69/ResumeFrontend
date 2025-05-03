@@ -213,29 +213,29 @@ export default function ScoresPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 relative z-10">
-        <div className="mb-8">
+      <main className="container mx-auto px-4 py-6 md:py-8 relative z-10">
+        <div className="mb-6 md:mb-8">
           <Link href="/" className="inline-flex items-center text-white/70 hover:text-white font-founder-grotesk">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
           </Link>
         </div>
 
-        <div className="relative group mb-8">
+        <div className="relative group mb-6 md:mb-8">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-          <div className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-6 md:p-8 shadow-2xl border border-white/10">
+          <div className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-4 md:p-8 shadow-2xl border border-white/10">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-white font-founder-grotesk tracking-tight">
+                <h1 className="text-xl md:text-3xl font-bold text-white font-founder-grotesk tracking-tight">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
                     ATS Resume Match Analysis
                   </span>
                 </h1>
-                <p className="text-white/50 mt-2 font-founder-grotesk">Analyzed on {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                <p className="text-white/50 mt-2 font-founder-grotesk text-sm">Analyzed on {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
               
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
               <ScoreCard title="Final ATS Score" score={analysisData.final_score.toString()} maxScore="100" color="#8b5cf6" />
               <ScoreCard title="Technical Skills" score={analysisData.technical_skills.score.toString()} maxScore="40" color="#38bdf8" />
               <ScoreCard title="Experience" score={analysisData.projects_experience.score.toString()} maxScore="30" color="#818cf8" />
@@ -247,7 +247,7 @@ export default function ScoresPage() {
               />
             </div>
 
-            <div className="space-y-8">
+            <div className="space-y-6 md:space-y-8">
               <ScoreTable
                 title="1. Technical Skills Match (Weight: 40%)"
                 score={`${analysisData.technical_skills.score}/40`}
@@ -311,10 +311,10 @@ export default function ScoresPage() {
           </div>
         </div>
 
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 md:mb-8">
           <Link
             href="/"
-            className="relative inline-flex h-12 items-center justify-center rounded-md px-8 text-sm font-medium font-founder-grotesk group overflow-hidden"
+            className="relative inline-flex h-10 md:h-12 items-center justify-center rounded-md px-6 md:px-8 text-sm font-medium font-founder-grotesk group overflow-hidden"
           >
             <span className="relative z-10 text-white">Analyze Another Resume</span>
             <div className="absolute inset-0 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] transition-all duration-300"></div>

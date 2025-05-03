@@ -24,7 +24,8 @@ export function ScoreTable({ title, score, description, data }: ScoreTableProps)
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        {/* Desktop view - Traditional table */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-white/5">
@@ -66,6 +67,40 @@ export function ScoreTable({ title, score, description, data }: ScoreTableProps)
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile view - Card layout */}
+        <div className="md:hidden space-y-4">
+          {data.map((item, index) => (
+            <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <div className="mb-2">
+                <h3 className="text-sm font-medium text-white font-founder-grotesk">{item.skill}</h3>
+              </div>
+              <div className="flex items-center mb-2">
+                <span className="text-xs text-white/70 font-founder-grotesk mr-2">Status:</span>
+                {item.found === true ? (
+                  <div className="flex items-center">
+                    <CheckCircle className="h-4 w-4 text-[#38bdf8] mr-1" />
+                    <span className="text-xs text-white font-founder-grotesk">{item.status}</span>
+                  </div>
+                ) : item.found === "partial" ? (
+                  <div className="flex items-center">
+                    <AlertTriangle className="h-4 w-4 text-[#f59e0b] mr-1" />
+                    <span className="text-xs text-white font-founder-grotesk">{item.status}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <XCircle className="h-4 w-4 text-[#ec4899] mr-1" />
+                    <span className="text-xs text-white font-founder-grotesk">{item.status}</span>
+                  </div>
+                )}
+              </div>
+              <div>
+                <span className="text-xs text-white/70 font-founder-grotesk block mb-1">Comments:</span>
+                <p className="text-xs text-white/70 font-founder-grotesk">{item.comments}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div className="mt-4">
