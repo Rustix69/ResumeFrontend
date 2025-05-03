@@ -13,7 +13,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "ResumeAI - Optimize Your Resume for ATS",
   description: "AI-powered resume analysis to help you pass ATS screenings and get more interviews.",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://resume-ats-tracker.vercel.app'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://resume.rustix.in'),
   keywords: ["resume optimizer", "ATS tracker", "AI resume analysis", "job application tracker", "resume keywords", "interview success", "career tools"],
   authors: [{ name: 'ResumeAI' }],
   creator: 'ResumeAI',
