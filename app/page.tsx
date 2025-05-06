@@ -628,28 +628,45 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-6 md:py-8 relative z-10 border-t border-white/10">
-        <div className="container mx-auto px-4">
-          <motion.div 
-            className="text-center"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
+  <div className="container mx-auto px-4">
+    <motion.div
+      className="text-center"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.3 }}
+    >
+      {/* Mobile / Small screen layout */}
+      <div className="md:hidden space-y-1 text-white font-founder-grotesk text-xs flex flex-col items-center">
+        <p className="flex items-center gap-1">
+          Made with
+          <motion.span
+            className="text-[#ec4899]"
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
           >
-            <p className="text-white/50 font-founder-grotesk text-xs md:text-sm flex items-center justify-center gap-1 md:gap-2">
-              © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with 
-              <motion.span 
-                className="text-[#ec4899]"
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ repeat: Infinity, duration: 1.5 }}
-              >
-                ❤️
-              </motion.span> 
-              by rustix69
-            </p>
-          </motion.div>
-        </div>
-      </footer>
+            ❤️
+          </motion.span>
+          by rustix69
+        </p>
+        <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+      </div>
+
+      {/* Medium and up screen layout */}
+      <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
+        © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
+        <motion.span
+          className="text-[#ec4899]"
+          animate={{ scale: [1, 1.2, 1] }}
+          transition={{ repeat: Infinity, duration: 1.5 }}
+        >
+          ❤️
+        </motion.span>
+        by rustix69
+      </p>
+    </motion.div>
+  </div>
+</footer>
     </div>
   )
 }
