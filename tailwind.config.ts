@@ -55,6 +55,25 @@ const config: Config = {
       fontFamily: {
         "founder-grotesk": ["Founder Grotesk", "Arial", "sans-serif"],
       },
+      keyframes: {
+        progress: {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' }
+        },
+        'fill-width': {
+          '0%': { width: '0%' },
+          '100%': { width: '100%' }
+        },
+        'bounce-x': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(5px)' }
+        }
+      },
+      animation: {
+        progress: 'progress 2s linear infinite',
+        'fill-width': 'fill-width 2s ease-in-out forwards',
+        'bounce-x': 'bounce-x 1.5s ease-in-out infinite'
+      }
     },
   },
   plugins: [],
