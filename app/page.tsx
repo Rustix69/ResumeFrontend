@@ -6,34 +6,11 @@ import { FileUpload } from "@/components/file-upload"
 import { FeatureCard } from "@/components/feature-card"
 import { TestimonialCard } from "@/components/testimonial-card"
 import { CheckCircle, BarChart2, Clock, Search, Award, Zap } from "lucide-react"
-import { motion } from "framer-motion"
 import Script from "next/script"
 import { MobileMenu } from "@/components/mobile-menu"
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
-  const fadeInUpVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
-  }
-
-  const staggerContainerVariant = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  }
 
   // JSON-LD schema for the homepage
   const jsonLd = {
@@ -78,31 +55,13 @@ export default function Home() {
       <div className="fixed inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6b21a8]/20 via-transparent to-transparent"></div>
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#3b82f6]/10 via-transparent to-transparent"></div>
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#6366f1]/10 blur-3xl"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.5, 0.8, 0.5]
-          }}
-          transition={{ 
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        ></motion.div>
-        <motion.div
-          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#ec4899]/10 blur-3xl"
-          animate={{ 
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.8, 0.5]
-          }}
-          transition={{ 
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
-        ></motion.div>
+        <div
+          className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#6366f1]/10 blur-3xl animate-pulse"
+        ></div>
+        <div
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#ec4899]/10 blur-3xl animate-pulse"
+          style={{ animationDelay: '1s', animationDuration: '10s' }}
+        ></div>
       </div>
 
       {/* Mobile Menu */}
@@ -111,16 +70,13 @@ export default function Home() {
       {/* Navigation */}
       <header className="container mx-auto px-4 py-6 relative z-10">
         <div className="flex items-center justify-between">
-          <motion.div 
+          <div 
             className="text-white text-2xl font-bold font-founder-grotesk tracking-tight flex items-center"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
           >
             <Link href="/" aria-label="ResumeAI Home" className="flex items-center">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">ResumeAI</span>
             </Link>
-          </motion.div>
+          </div>
           
           {/* Mobile Menu Button - only visible on mobile */}
           <div className="md:hidden flex items-center">
@@ -137,11 +93,9 @@ export default function Home() {
           
           <nav className="hidden md:flex items-center space-x-8 mobile-hidden">
             {["Features", "How It Works", "Coming Features", "Testimonials"].map((item, index) => (
-              <motion.div
+              <div
                 key={item}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
+                className="transition-transform hover:translate-y-[-2px]"
               >
                 <Link 
                   href={`#${item.toLowerCase().replace(/\s+/g, "-")}`} 
@@ -149,13 +103,10 @@ export default function Home() {
                 >
                   {item}
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </nav>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+          <div
             className="mobile-hidden"
           >
             <Link
@@ -169,58 +120,37 @@ export default function Home() {
               <span className="relative z-10">Sign up</span>
               <div className="absolute inset-0 h-full w-full translate-y-full bg-gradient-to-t from-[#38bdf8] to-[#818cf8] opacity-30 transition-transform duration-300 group-hover:translate-y-0"></div>
             </Link>
-          </motion.div>
+          </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <main className="container mx-auto px-4 py-8 md:py-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={staggerContainerVariant}
-          >
-            <motion.h1 
+          <div>
+            <h1 
               className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight font-founder-grotesk tracking-tight"
-              variants={fadeInUpVariant}
             >
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
                 AI-powered resume
               </span>{" "}
               tracking & optimization
-            </motion.h1>
-            <motion.div 
-              className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-8"
-              variants={fadeInUpVariant}
-            >
+            </h1>
+            <div className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-8">
               <div>
-                <motion.p 
-                  className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
+                <p className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk">
                   6K<span className="text-[#38bdf8]">+</span>
-                </motion.p>
+                </p>
                 <p className="text-white/70 font-founder-grotesk text-sm md:text-base">Successful Applications</p>
               </div>
               <div>
-                <motion.p 
-                  className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                >
+                <p className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk">
                   99<span className="text-[#818cf8]">%</span>
-                </motion.p>
+                </p>
                 <p className="text-white/70 font-founder-grotesk text-sm md:text-base">LLM Accuracy Rate</p>
               </div>
-            </motion.div>
-            <motion.div 
-              className="mt-6 md:mt-8"
-              variants={fadeInUpVariant}
-            >
+            </div>
+            <div className="mt-6 md:mt-8">
               <div className="inline-block border-b-2 border-[#818cf8] pb-1 text-white font-semibold font-founder-grotesk text-sm md:text-base">
                 INTELLIGENT ANALYSIS <span className="text-[#ec4899]">✱</span>
               </div>
@@ -229,67 +159,36 @@ export default function Home() {
                 Get personalized recommendations, keyword optimization, and intelligent insights to dramatically improve 
                 your chances of landing interviews and tracking application success.
               </p>
-              <motion.div 
-                className="mt-4 md:mt-6 flex flex-wrap gap-2 md:gap-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                <motion.span 
-                  className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-xs font-medium font-founder-grotesk"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(56, 189, 248, 0.3)" }}
-                >
+              <div className="mt-4 md:mt-6 flex flex-wrap gap-2 md:gap-4">
+                <span className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-xs font-medium font-founder-grotesk hover:bg-[#38bdf8]/30 hover:scale-105 transition-all">
                   LLM-Powered Analysis
-                </motion.span>
-                <motion.span 
-                  className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#818cf8]/20 text-[#818cf8] text-xs font-medium font-founder-grotesk"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(129, 140, 248, 0.3)" }}
-                >
+                </span>
+                <span className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#818cf8]/20 text-[#818cf8] text-xs font-medium font-founder-grotesk hover:bg-[#818cf8]/30 hover:scale-105 transition-all">
                   NLP Keyword Matching
-                </motion.span>
-                <motion.span 
-                  className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#ec4899]/20 text-[#ec4899] text-xs font-medium font-founder-grotesk"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(236, 72, 153, 0.3)" }}
-                >
+                </span>
+                <span className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#ec4899]/20 text-[#ec4899] text-xs font-medium font-founder-grotesk hover:bg-[#ec4899]/30 hover:scale-105 transition-all">
                   Smart Tracking System
-                </motion.span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* Upload Section with 3D effect */}
-          <motion.div 
-            className="relative"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            <motion.div 
-              className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
-              animate={{ 
-                opacity: [0.3, 0.5, 0.3]
-              }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 3,
-                ease: "easeInOut"
-              }}
+          <div className="relative">
+            <div 
+              className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 animate-pulse"
               style={{
-                filter: "blur(8px)"
+                filter: "blur(8px)",
+                animationDuration: '3s'
               }}
-            ></motion.div>
-            <motion.div 
-              className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10"
-              whileHover={{ 
-                rotateY: 5,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7)"
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            ></div>
+            <div 
+              className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 hover:shadow-xl transition-all hover:rotate-1 hover:scale-[1.01]"
             >
               <h2 className="text-2xl font-bold text-white mb-6 font-founder-grotesk">Analyze Your Resume</h2>
               <FileUpload />
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </main>
 
@@ -297,13 +196,7 @@ export default function Home() {
       <section id="features" className="py-12 md:py-20 relative z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a103c] to-[#0a0a1f] z-0"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="text-center mb-10 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 font-founder-grotesk tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
                 AI-Powered Features
@@ -312,15 +205,9 @@ export default function Home() {
             <p className="text-white/70 max-w-2xl mx-auto font-founder-grotesk text-sm md:text-base">
               Our LLM-enhanced resume tracker provides intelligent analysis and powerful tools to optimize your resume and increase your chances of landing your dream job.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainerVariant}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <FeatureCard
               icon={null}
               title="AI Resume Analysis"
@@ -351,20 +238,14 @@ export default function Home() {
               title="Intelligent Suggestions"
               description="Get AI-generated, actionable suggestions to improve your resume's content, formatting, and impact for each specific job application."
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* How It Works Section */}
       <section id="how-it-works" className="py-12 md:py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <motion.div 
-            className="text-center mb-10 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 font-founder-grotesk tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
                 How Our AI Works
@@ -373,15 +254,9 @@ export default function Home() {
             <p className="text-white/70 max-w-2xl mx-auto font-founder-grotesk text-sm md:text-base">
               Our advanced LLM process analyzes and optimizes your resume in three simple steps.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainerVariant}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
               {
                 step: 1,
@@ -405,38 +280,29 @@ export default function Home() {
                 glowEffect: "glow-effect-pink"
               }
             ].map((step, index) => (
-              <motion.div 
+              <div 
                 key={step.step} 
                 className="relative group"
-                variants={fadeInUpVariant}
               >
-                <motion.div 
+                <div 
                   className={`absolute -inset-0.5 bg-gradient-to-r ${step.gradient} rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200`}
-                  whileHover={{ opacity: 1 }}
-                ></motion.div>
-                <motion.div 
-                  className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full"
-                  whileHover={{ 
-                    rotateY: 5,
-                    scale: 1.02,
-                    transition: { type: "spring", stiffness: 300, damping: 20 }
-                  }}
+                ></div>
+                <div 
+                  className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full hover:scale-[1.02] hover:rotate-1 transition-transform"
                 >
-                  <motion.div 
-                    className={`w-16 h-16 bg-${step.gradient.split(" ")[1].replace("to-", "")}/20 rounded-full flex items-center justify-center mx-auto mb-6 ${step.glowEffect}`}
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  <div 
+                    className={`w-16 h-16 bg-${step.gradient.split(" ")[1].replace("to-", "")}/20 rounded-full flex items-center justify-center mx-auto mb-6 ${step.glowEffect} hover:scale-110 transition-transform`}
                   >
                     <span className="text-2xl font-bold text-white font-founder-grotesk">{step.step}</span>
-                  </motion.div>
+                  </div>
                   <h3 className="text-xl font-bold text-white mb-4 font-founder-grotesk">{step.title}</h3>
                   <p className="text-white/70 font-founder-grotesk">
                     {step.description}
                   </p>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -444,13 +310,7 @@ export default function Home() {
       <section id="coming-features" className="py-12 md:py-20 relative z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a103c] to-[#0a0a1f] z-0"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="text-center mb-10 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 font-founder-grotesk tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
                 Coming Soon
@@ -459,31 +319,16 @@ export default function Home() {
             <p className="text-white/70 max-w-2xl mx-auto font-founder-grotesk text-sm md:text-base">
               We're constantly improving ResumeAI with exciting new features to enhance your job search experience.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainerVariant}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {/* User Login Feature Card */}
-            <motion.div 
-              className="relative group"
-              variants={fadeInUpVariant}
-            >
-              <motion.div 
+            <div className="relative group">
+              <div 
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
-                whileHover={{ opacity: 1 }}
-              ></motion.div>
-              <motion.div 
-                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
-                  rotateY: 5,
-                  scale: 1.02,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
+              ></div>
+              <div 
+                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col hover:scale-[1.02] hover:rotate-1 transition-transform"
               >
                 <div className="flex-1">
                   <div className="w-16 h-16 bg-[#38bdf8]/20 rounded-full flex items-center justify-center mb-6">
@@ -497,176 +342,122 @@ export default function Home() {
                   </p>
                 </div>
                 <div className="bg-[#0a0a1f]/50 py-2 px-4 rounded-lg inline-flex items-center mt-auto">
-                  <span className="h-2 w-2 bg-[#38bdf8] rounded-full animate-pulse mr-2"></span>
-                  <span className="text-white/70 text-sm">Coming in June 2025</span>
+                  <span className="text-xs text-white/50 font-medium font-founder-grotesk">Coming Q4 2023</span>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            {/* LLM Resume Builder Feature Card */}
-            <motion.div 
-              className="relative group"
-              variants={fadeInUpVariant}
-            >
-              <motion.div 
+            {/* Interview AI Feature Card */}
+            <div className="relative group">
+              <div 
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#818cf8] to-[#8b5cf6] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
-                whileHover={{ opacity: 1 }}
-              ></motion.div>
-              <motion.div 
-                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
-                  rotateY: 5,
-                  scale: 1.02,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
+              ></div>
+              <div 
+                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col hover:scale-[1.02] hover:rotate-1 transition-transform"
               >
                 <div className="flex-1">
-                  <div className="w-16 h-16 bg-[#8b5cf6]/20 rounded-full flex items-center justify-center mb-6">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#8b5cf6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <div className="w-16 h-16 bg-[#818cf8]/20 rounded-full flex items-center justify-center mb-6">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#818cf8]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-4 font-founder-grotesk">LLM Resume Builder</h3>
+                  <h3 className="text-xl font-bold text-white mb-4 font-founder-grotesk">Interview AI Coach</h3>
                   <p className="text-white/70 font-founder-grotesk mb-6">
-                    Generate professional, ATS-optimized resumes from scratch with our advanced AI. Customize templates, content, and formatting to match specific job requirements.
+                    Practice interview questions specific to your target roles with our AI Interview Coach. Get instant feedback and tips to improve your responses.
                   </p>
                 </div>
                 <div className="bg-[#0a0a1f]/50 py-2 px-4 rounded-lg inline-flex items-center mt-auto">
-                  <span className="h-2 w-2 bg-[#8b5cf6] rounded-full animate-pulse mr-2"></span>
-                  <span className="text-white/70 text-sm">Coming in August 2025</span>
+                  <span className="text-xs text-white/50 font-medium font-founder-grotesk">Coming Q1 2024</span>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
-            {/* Automated Job Applications Feature Card */}
-            <motion.div 
-              className="relative group"
-              variants={fadeInUpVariant}
-            >
-              <motion.div 
+            {/* Networking Assistant Feature Card */}
+            <div className="relative group">
+              <div 
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#8b5cf6] to-[#ec4899] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
-                whileHover={{ opacity: 1 }}
-              ></motion.div>
-              <motion.div 
-                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
-                  rotateY: 5,
-                  scale: 1.02,
-                  transition: { type: "spring", stiffness: 300, damping: 20 }
-                }}
+              ></div>
+              <div 
+                className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col hover:scale-[1.02] hover:rotate-1 transition-transform"
               >
                 <div className="flex-1">
                   <div className="w-16 h-16 bg-[#ec4899]/20 rounded-full flex items-center justify-center mb-6">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-[#ec4899]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-4 font-founder-grotesk">Automated Job Applications</h3>
+                  <h3 className="text-xl font-bold text-white mb-4 font-founder-grotesk">Networking Assistant</h3>
                   <p className="text-white/70 font-founder-grotesk mb-6">
-                    Save time with our automated job application system. Instantly apply to multiple positions with tailored resumes and cover letters optimized for each opportunity.
+                    Generate personalized networking messages and follow-ups based on your target roles and companies to help you stand out and build connections.
                   </p>
                 </div>
                 <div className="bg-[#0a0a1f]/50 py-2 px-4 rounded-lg inline-flex items-center mt-auto">
-                  <span className="h-2 w-2 bg-[#ec4899] rounded-full animate-pulse mr-2"></span>
-                  <span className="text-white/70 text-sm">Coming in October 2025</span>
+                  <span className="text-xs text-white/50 font-medium font-founder-grotesk">Coming Q2 2024</span>
                 </div>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Testimonials Section */}
       <section id="testimonials" className="py-12 md:py-20 relative z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a1f] to-[#1a103c] z-0"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="text-center mb-10 md:mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-10 md:mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 md:mb-4 font-founder-grotesk tracking-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">
-                What Our Users Say
+                What Users Say
               </span>
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto font-founder-grotesk text-sm md:text-base">
-              Thousands of job seekers have improved their resumes and landed interviews with our platform.
+              Discover how ResumeAI has helped job seekers optimize their resumes and land their dream jobs.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainerVariant}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <TestimonialCard
-              quote="After optimizing my resume with ResumeAI, I received callbacks from 3 companies within a week. The keyword analysis was incredibly helpful!"
-              author="Sarah J."
+              quote="ResumeAI's keyword analysis gave me insights I never considered before. My interview callbacks increased by 60% after optimizing with their tool!"
+              author="Alex Chen"
               role="Software Engineer"
               rating={5}
             />
             <TestimonialCard
-              quote="The detailed feedback helped me understand exactly what was missing from my resume. I went from zero callbacks to multiple interviews in just two weeks."
-              author="Michael T."
-              role="Marketing Specialist"
+              quote="I was struggling with tailoring my resume for each job application. This AI tool made it so much easier to identify which skills to highlight."
+              author="Sarah Johnson"
+              role="Marketing Manager"
               rating={5}
             />
             <TestimonialCard
-              quote="As a career changer, I was struggling to get past ATS systems. This tool helped me identify the right keywords and format my resume properly."
-              author="Jessica L."
+              quote="The intelligent feedback on my resume's structure and content helped me transform a good resume into a great one. Highly recommend!"
+              author="Marcus Williams"
               role="Data Analyst"
               rating={4}
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-6 md:py-8 relative z-10 border-t border-white/10">
-  <div className="container mx-auto px-4">
-    <motion.div
-      className="text-center"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.3 }}
-    >
-      {/* Mobile / Small screen layout */}
-      <div className="md:hidden space-y-1 text-white font-founder-grotesk text-xs flex flex-col items-center">
-        <p className="flex items-center gap-1">
-          Made with
-          <motion.span
-            className="text-[#ec4899]"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          >
-            ❤️
-          </motion.span>
-          by rustix69
-        </p>
-        <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
-      </div>
-
-      {/* Medium and up screen layout */}
-      <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
-        © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
-        <motion.span
-          className="text-[#ec4899]"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          ❤️
-        </motion.span>
-        by rustix69
-      </p>
-    </motion.div>
-  </div>
-</footer>
+      <footer className="py-10 relative z-10">
+        <div className="container mx-auto px-4">
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-white/20 to-transparent my-10"></div>
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <div className="text-white text-2xl font-bold font-founder-grotesk tracking-tight flex items-center">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">ResumeAI</span>
+              </div>
+            </div>
+            <div className="flex gap-6 md:gap-8">
+              <a href="#" className="text-white/50 hover:text-white transition-colors font-founder-grotesk text-sm">Terms</a>
+              <a href="#" className="text-white/50 hover:text-white transition-colors font-founder-grotesk text-sm">Privacy</a>
+              <a href="#" className="text-white/50 hover:text-white transition-colors font-founder-grotesk text-sm">Support</a>
+            </div>
+          </div>
+          <p className="text-center text-white/40 mt-8 font-founder-grotesk text-xs">
+            © {new Date().getFullYear()} ResumeAI. All rights reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }
