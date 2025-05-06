@@ -10,6 +10,7 @@ import { SignUpButton } from "@/components/sign-up-button"
 import Script from "next/script"
 import { LoadingAnalysis } from "@/components/loading-analysis"
 import { toast } from "sonner"
+import { motion } from "framer-motion"
 
 // Define the response structure to type check our data
 interface SkillBreakdown {
@@ -37,21 +38,21 @@ interface AnalysisResult {
 export default function ScoresPage() {
   const [analysisData, setAnalysisData] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
     // Load the data from localStorage
     try {
       const storedResult = localStorage.getItem('resumeAnalysisResult');
       if (storedResult) {
         const parsedData = JSON.parse(storedResult);
-        
+
         // Validate the data structure
         if (!validateAnalysisResult(parsedData)) {
           toast.error("Invalid data format received from API");
           setIsLoading(false);
           return;
         }
-        
+
         setAnalysisData(parsedData);
       } else {
         // If no data in localStorage, check if we should redirect
@@ -68,32 +69,32 @@ export default function ScoresPage() {
   // Validate the analysis result structure
   const validateAnalysisResult = (data: any): data is AnalysisResult => {
     if (!data) return false;
-    
+
     // Check main sections
     const requiredSections = [
-      'technical_skills', 
-      'projects_experience', 
-      'education_achievements', 
-      'formatting_compatibility', 
+      'technical_skills',
+      'projects_experience',
+      'education_achievements',
+      'formatting_compatibility',
       'soft_skills'
     ];
-    
+
     for (const section of requiredSections) {
-      if (!data[section] || 
-          typeof data[section].score !== 'number' || 
-          typeof data[section].summary !== 'string' ||
-          !Array.isArray(data[section].breakdown)) {
+      if (!data[section] ||
+        typeof data[section].score !== 'number' ||
+        typeof data[section].summary !== 'string' ||
+        !Array.isArray(data[section].breakdown)) {
         console.error(`Invalid or missing section: ${section}`, data[section]);
         return false;
       }
     }
-    
+
     // Check final score and summary
     if (typeof data.final_score !== 'number' || typeof data.summary !== 'string') {
       console.error('Missing final_score or summary');
       return false;
     }
-    
+
     return true;
   };
 
@@ -116,7 +117,7 @@ export default function ScoresPage() {
       </div>
     );
   }
-  
+
   // Helper function to determine status display format
   const getStatusFromFound = (found: string | boolean) => {
     if (typeof found === 'boolean') {
@@ -232,18 +233,18 @@ export default function ScoresPage() {
                 </h1>
                 <p className="text-white/50 mt-2 font-founder-grotesk text-sm">Analyzed on {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
               </div>
-              
+
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
               <ScoreCard title="Final ATS Score" score={analysisData.final_score.toString()} maxScore="100" color="#8b5cf6" />
               <ScoreCard title="Technical Skills" score={analysisData.technical_skills.score.toString()} maxScore="40" color="#38bdf8" />
               <ScoreCard title="Experience" score={analysisData.projects_experience.score.toString()} maxScore="30" color="#818cf8" />
-              <ScoreCard 
-                title="Education & Skills" 
-                score={(analysisData.education_achievements.score + analysisData.formatting_compatibility.score + analysisData.soft_skills.score).toString()} 
-                maxScore="30" 
-                color="#ec4899" 
+              <ScoreCard
+                title="Education & Skills"
+                score={(analysisData.education_achievements.score + analysisData.formatting_compatibility.score + analysisData.soft_skills.score).toString()}
+                maxScore="30"
+                color="#ec4899"
               />
             </div>
 
@@ -325,15 +326,42 @@ export default function ScoresPage() {
 
       <footer className="py-6 md:py-8 relative z-10 border-t border-white/10">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <p className="text-white/50 font-founder-grotesk text-xs md:text-sm flex items-center justify-center gap-1 md:gap-2">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            {/* Mobile / Small screen layout */}
+            <div className="md:hidden space-y-1 text-white font-founder-grotesk text-xs flex flex-col items-center">
+              <p className="flex items-center gap-1">
+                Made with
+                <motion.span
+                  className="text-[#ec4899]"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  ❤️
+                </motion.span>
+                by rustix69
+              </p>
+              <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+            </div>
+
+            {/* Medium and up screen layout */}
+            <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
               © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
-              <span className="text-[#ec4899]">
+              <motion.span
+                className="text-[#ec4899]"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
                 ❤️
-              </span>
+              </motion.span>
               by rustix69
             </p>
-          </div>
+          </motion.div>
         </div>
       </footer>
     </div>

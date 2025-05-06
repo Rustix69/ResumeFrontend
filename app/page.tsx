@@ -78,25 +78,25 @@ export default function Home() {
       <div className="fixed inset-0 z-0">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6b21a8]/20 via-transparent to-transparent"></div>
         <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#3b82f6]/10 via-transparent to-transparent"></div>
-        <motion.div 
+        <motion.div
           className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full bg-[#6366f1]/10 blur-3xl"
-          animate={{ 
+          animate={{
             scale: [1, 1.2, 1],
             opacity: [0.5, 0.8, 0.5]
           }}
-          transition={{ 
+          transition={{
             duration: 8,
             repeat: Infinity,
-            ease: "easeInOut" 
+            ease: "easeInOut"
           }}
         ></motion.div>
         <motion.div
           className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-[#ec4899]/10 blur-3xl"
-          animate={{ 
+          animate={{
             scale: [1.2, 1, 1.2],
             opacity: [0.5, 0.8, 0.5]
           }}
-          transition={{ 
+          transition={{
             duration: 10,
             repeat: Infinity,
             ease: "easeInOut",
@@ -111,7 +111,7 @@ export default function Home() {
       {/* Navigation */}
       <header className="container mx-auto px-4 py-6 relative z-10">
         <div className="flex items-center justify-between">
-          <motion.div 
+          <motion.div
             className="text-white text-2xl font-bold font-founder-grotesk tracking-tight flex items-center"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -121,10 +121,10 @@ export default function Home() {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">ResumeAI</span>
             </Link>
           </motion.div>
-          
+
           {/* Mobile Menu Button - only visible on mobile */}
           <div className="md:hidden flex items-center">
-            <button 
+            <button
               className="text-white p-2 focus:outline-none"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Mobile Menu"
@@ -134,7 +134,7 @@ export default function Home() {
               </svg>
             </button>
           </div>
-          
+
           <nav className="hidden md:flex items-center space-x-8 mobile-hidden">
             {["Features", "How It Works", "Coming Features", "Testimonials"].map((item, index) => (
               <motion.div
@@ -143,8 +143,8 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
               >
-                <Link 
-                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`} 
+                <Link
+                  href={`#${item.toLowerCase().replace(/\s+/g, "-")}`}
                   className="text-white/80 hover:text-white font-founder-grotesk transition-colors"
                 >
                   {item}
@@ -181,7 +181,7 @@ export default function Home() {
             animate="visible"
             variants={staggerContainerVariant}
           >
-            <motion.h1 
+            <motion.h1
               className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight font-founder-grotesk tracking-tight"
               variants={fadeInUpVariant}
             >
@@ -190,12 +190,12 @@ export default function Home() {
               </span>{" "}
               tracking & optimization
             </motion.h1>
-            <motion.div 
+            <motion.div
               className="mt-8 md:mt-16 grid grid-cols-2 gap-4 md:gap-8"
               variants={fadeInUpVariant}
             >
               <div>
-                <motion.p 
+                <motion.p
                   className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -206,7 +206,7 @@ export default function Home() {
                 <p className="text-white/70 font-founder-grotesk text-sm md:text-base">Successful Applications</p>
               </div>
               <div>
-                <motion.p 
+                <motion.p
                   className="text-white text-3xl md:text-4xl font-bold font-founder-grotesk"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -217,7 +217,7 @@ export default function Home() {
                 <p className="text-white/70 font-founder-grotesk text-sm md:text-base">LLM Accuracy Rate</p>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="mt-6 md:mt-8"
               variants={fadeInUpVariant}
             >
@@ -225,29 +225,29 @@ export default function Home() {
                 INTELLIGENT ANALYSIS <span className="text-[#ec4899]">✱</span>
               </div>
               <p className="mt-3 md:mt-4 text-white/70 max-w-lg font-founder-grotesk text-sm md:text-base">
-                Our advanced LLM-powered platform analyzes your resume against job descriptions with unmatched precision. 
-                Get personalized recommendations, keyword optimization, and intelligent insights to dramatically improve 
+                Our advanced LLM-powered platform analyzes your resume against job descriptions with unmatched precision.
+                Get personalized recommendations, keyword optimization, and intelligent insights to dramatically improve
                 your chances of landing interviews and tracking application success.
               </p>
-              <motion.div 
+              <motion.div
                 className="mt-4 md:mt-6 flex flex-wrap gap-2 md:gap-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.5 }}
               >
-                <motion.span 
+                <motion.span
                   className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-xs font-medium font-founder-grotesk"
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(56, 189, 248, 0.3)" }}
                 >
                   LLM-Powered Analysis
                 </motion.span>
-                <motion.span 
+                <motion.span
                   className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#818cf8]/20 text-[#818cf8] text-xs font-medium font-founder-grotesk"
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(129, 140, 248, 0.3)" }}
                 >
                   NLP Keyword Matching
                 </motion.span>
-                <motion.span 
+                <motion.span
                   className="inline-flex items-center px-2 md:px-3 py-1 rounded-full bg-[#ec4899]/20 text-[#ec4899] text-xs font-medium font-founder-grotesk"
                   whileHover={{ scale: 1.05, backgroundColor: "rgba(236, 72, 153, 0.3)" }}
                 >
@@ -258,19 +258,19 @@ export default function Home() {
           </motion.div>
 
           {/* Upload Section with 3D effect */}
-          <motion.div 
+          <motion.div
             className="relative"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            <motion.div 
+            <motion.div
               className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
-              animate={{ 
+              animate={{
                 opacity: [0.3, 0.5, 0.3]
               }}
-              transition={{ 
-                repeat: Infinity, 
+              transition={{
+                repeat: Infinity,
                 duration: 3,
                 ease: "easeInOut"
               }}
@@ -278,9 +278,9 @@ export default function Home() {
                 filter: "blur(8px)"
               }}
             ></motion.div>
-            <motion.div 
+            <motion.div
               className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10"
-              whileHover={{ 
+              whileHover={{
                 rotateY: 5,
                 boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.7)"
               }}
@@ -297,7 +297,7 @@ export default function Home() {
       <section id="features" className="py-12 md:py-20 relative z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a103c] to-[#0a0a1f] z-0"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-10 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -314,7 +314,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
             initial="hidden"
             whileInView="visible"
@@ -358,7 +358,7 @@ export default function Home() {
       {/* How It Works Section */}
       <section id="how-it-works" className="py-12 md:py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <motion.div 
+          <motion.div
             className="text-center mb-10 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -375,7 +375,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
             initial="hidden"
             whileInView="visible"
@@ -405,24 +405,24 @@ export default function Home() {
                 glowEffect: "glow-effect-pink"
               }
             ].map((step, index) => (
-              <motion.div 
-                key={step.step} 
+              <motion.div
+                key={step.step}
                 className="relative group"
                 variants={fadeInUpVariant}
               >
-                <motion.div 
+                <motion.div
                   className={`absolute -inset-0.5 bg-gradient-to-r ${step.gradient} rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200`}
                   whileHover={{ opacity: 1 }}
                 ></motion.div>
-                <motion.div 
+                <motion.div
                   className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full"
-                  whileHover={{ 
+                  whileHover={{
                     rotateY: 5,
                     scale: 1.02,
                     transition: { type: "spring", stiffness: 300, damping: 20 }
                   }}
                 >
-                  <motion.div 
+                  <motion.div
                     className={`w-16 h-16 bg-${step.gradient.split(" ")[1].replace("to-", "")}/20 rounded-full flex items-center justify-center mx-auto mb-6 ${step.glowEffect}`}
                     whileHover={{ scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
@@ -444,7 +444,7 @@ export default function Home() {
       <section id="coming-features" className="py-12 md:py-20 relative z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#1a103c] to-[#0a0a1f] z-0"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-10 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -461,7 +461,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
             initial="hidden"
             whileInView="visible"
@@ -469,17 +469,17 @@ export default function Home() {
             variants={staggerContainerVariant}
           >
             {/* User Login Feature Card */}
-            <motion.div 
+            <motion.div
               className="relative group"
               variants={fadeInUpVariant}
             >
-              <motion.div 
+              <motion.div
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
                 whileHover={{ opacity: 1 }}
               ></motion.div>
-              <motion.div 
+              <motion.div
                 className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
+                whileHover={{
                   rotateY: 5,
                   scale: 1.02,
                   transition: { type: "spring", stiffness: 300, damping: 20 }
@@ -504,17 +504,17 @@ export default function Home() {
             </motion.div>
 
             {/* LLM Resume Builder Feature Card */}
-            <motion.div 
+            <motion.div
               className="relative group"
               variants={fadeInUpVariant}
             >
-              <motion.div 
+              <motion.div
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#818cf8] to-[#8b5cf6] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
                 whileHover={{ opacity: 1 }}
               ></motion.div>
-              <motion.div 
+              <motion.div
                 className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
+                whileHover={{
                   rotateY: 5,
                   scale: 1.02,
                   transition: { type: "spring", stiffness: 300, damping: 20 }
@@ -539,17 +539,17 @@ export default function Home() {
             </motion.div>
 
             {/* Automated Job Applications Feature Card */}
-            <motion.div 
+            <motion.div
               className="relative group"
               variants={fadeInUpVariant}
             >
-              <motion.div 
+              <motion.div
                 className="absolute -inset-0.5 bg-gradient-to-r from-[#8b5cf6] to-[#ec4899] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"
                 whileHover={{ opacity: 1 }}
               ></motion.div>
-              <motion.div 
+              <motion.div
                 className="relative bg-[#1a103c]/80 backdrop-blur-xl rounded-xl p-8 shadow-2xl border border-white/10 h-full flex flex-col"
-                whileHover={{ 
+                whileHover={{
                   rotateY: 5,
                   scale: 1.02,
                   transition: { type: "spring", stiffness: 300, damping: 20 }
@@ -580,7 +580,7 @@ export default function Home() {
       <section id="testimonials" className="py-12 md:py-20 relative z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a1f] to-[#1a103c] z-0"></div>
         <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-10 md:mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -597,7 +597,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8"
             initial="hidden"
             whileInView="visible"
@@ -628,45 +628,45 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-6 md:py-8 relative z-10 border-t border-white/10">
-  <div className="container mx-auto px-4">
-    <motion.div
-      className="text-center"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.3 }}
-    >
-      {/* Mobile / Small screen layout */}
-      <div className="md:hidden space-y-1 text-white font-founder-grotesk text-xs flex flex-col items-center">
-        <p className="flex items-center gap-1">
-          Made with
-          <motion.span
-            className="text-[#ec4899]"
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
+        <div className="container mx-auto px-4">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
           >
-            ❤️
-          </motion.span>
-          by rustix69
-        </p>
-        <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
-      </div>
+            {/* Mobile / Small screen layout */}
+            <div className="md:hidden space-y-1 text-white font-founder-grotesk text-xs flex flex-col items-center">
+              <p className="flex items-center gap-1">
+                Made with
+                <motion.span
+                  className="text-[#ec4899]"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  ❤️
+                </motion.span>
+                by rustix69
+              </p>
+              <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+            </div>
 
-      {/* Medium and up screen layout */}
-      <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
-        © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
-        <motion.span
-          className="text-[#ec4899]"
-          animate={{ scale: [1, 1.2, 1] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-        >
-          ❤️
-        </motion.span>
-        by rustix69
-      </p>
-    </motion.div>
-  </div>
-</footer>
+            {/* Medium and up screen layout */}
+            <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
+              © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
+              <motion.span
+                className="text-[#ec4899]"
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                ❤️
+              </motion.span>
+              by rustix69
+            </p>
+          </motion.div>
+        </div>
+      </footer>
     </div>
   )
 }
