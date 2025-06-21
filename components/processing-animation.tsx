@@ -1,20 +1,45 @@
 "use client"
 
-import { CheckCircle, Loader2 } from "lucide-react"
+import { CheckCircle, Loader2, Clock } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Progress } from "@/components/ui/progress"
+import { useState, useEffect } from "react"
 
 interface ProcessingAnimationProps {
   currentStep: number
 }
 
 export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
+  const [elapsedTime, setElapsedTime] = useState(0)
+  const [step3StartTime, setStep3StartTime] = useState<number | null>(null)
+
   const steps = [
     { id: 1, name: "Uploading resume" },
-    { id: 2, name: "Analyzing keywords" },
-    { id: 3, name: "Comparing with job description" },
-    { id: 4, name: "Generating report" },
+    { id: 2, name: "Extracting text from PDF" },
+    { id: 3, name: "Analyzing with AI (this may take 2-5 minutes)" },
+    { id: 4, name: "Generating detailed report" },
   ]
+
+  // Track when step 3 starts and update elapsed time
+  useEffect(() => {
+    if (currentStep === 3 && step3StartTime === null) {
+      setStep3StartTime(Date.now())
+    }
+  }, [currentStep, step3StartTime])
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    
+    if (currentStep === 3 && step3StartTime !== null) {
+      interval = setInterval(() => {
+        setElapsedTime(Math.floor((Date.now() - step3StartTime) / 1000))
+      }, 1000)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [currentStep, step3StartTime])
 
   // Calculate progress percentage based on current step
   const progressPercentage = Math.max(5, Math.min(100, (currentStep / steps.length) * 100));
@@ -171,6 +196,39 @@ export function ProcessingAnimation({ currentStep }: ProcessingAnimationProps) {
           </motion.div>
         ))}
       </div>
+
+      {/* Additional information for step 3 (AI Analysis) */}
+      <AnimatePresence>
+        {currentStep === 3 && (
+          <motion.div 
+            className="mt-8 p-4 bg-white/5 rounded-lg border border-white/10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <motion.p 
+              className="text-white/80 text-sm font-founder-grotesk mb-2"
+              animate={{ opacity: [0.7, 1, 0.7] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+            >
+              🤖 Our AI is thoroughly analyzing your resume...
+            </motion.p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-white/60 text-xs font-founder-grotesk">
+                This process involves deep semantic analysis and comparison with the job description.
+              </p>
+              <div className="flex items-center text-white/50 text-xs font-founder-grotesk">
+                <Clock className="h-3 w-3 mr-1" />
+                <span>{Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}</span>
+              </div>
+            </div>
+            <p className="text-white/50 text-xs font-founder-grotesk">
+              Please be patient as this may take a few minutes depending on server load.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {currentStep === steps.length && (

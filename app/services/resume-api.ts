@@ -19,6 +19,9 @@ export async function evaluateResume(resumeFile: File, jobDescription: string) {
     const uploadPromise = new Promise((resolve, reject) => {
       xhr.open('POST', url);
       
+      // Set timeout to 10 minutes (600000ms) for long-running analysis
+      xhr.timeout = 600000;
+      
       xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
           try {
@@ -27,6 +30,8 @@ export async function evaluateResume(resumeFile: File, jobDescription: string) {
           } catch (e) {
             reject(new Error('Invalid JSON response'));
           }
+        } else if (xhr.status === 504) {
+          reject(new Error('Analysis timeout - The resume analysis is taking longer than expected. This may be due to high server load. Please try again in a few minutes.'));
         } else {
           try {
             const errorData = JSON.parse(xhr.responseText);
@@ -39,6 +44,10 @@ export async function evaluateResume(resumeFile: File, jobDescription: string) {
       
       xhr.onerror = function() {
         reject(new Error('Network error occurred'));
+      };
+      
+      xhr.ontimeout = function() {
+        reject(new Error('Request timeout - The analysis is taking longer than expected. This may be due to high server load or complex resume content. Please try again.'));
       };
       
       // Send the form data
