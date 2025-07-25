@@ -8,6 +8,7 @@ import { TestimonialCard } from "@/components/testimonial-card"
 import { CheckCircle, BarChart2, Clock, Search, Award, Zap } from "lucide-react"
 import Script from "next/script"
 import { MobileMenu } from "@/components/mobile-menu"
+import Image from "next/image"
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -95,17 +96,15 @@ export default function Home() {
             ))}
           </nav>
           <div className="mobile-hidden">
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                alert("User Based Resume dashboard soon");
-              }}
-              className="relative inline-flex h-10 items-center justify-center rounded-md border border-[#38bdf8] bg-transparent px-8 text-sm font-medium text-white hover:bg-[#38bdf8]/10 transition-colors font-founder-grotesk group overflow-hidden"
-            >
-              <span className="relative z-10">Sign up</span>
-              <div className="absolute inset-0 h-full w-full translate-y-full bg-gradient-to-t from-[#38bdf8] to-[#818cf8] opacity-30 transition-transform duration-300 group-hover:translate-y-0"></div>
-            </Link>
+            <a href="https://coff.ee/anirbanbism" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+              <Image 
+                src="/buy-me-a-coffee.png" 
+                alt="Buy Me a Coffee" 
+                width={200} 
+                height={56} 
+                className="max-w-full"
+              />
+            </a>
           </div>
         </div>
       </header>

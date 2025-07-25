@@ -11,6 +11,7 @@ import Script from "next/script"
 import { LoadingAnalysis } from "@/components/loading-analysis"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
+import Image from "next/image"
 
 // Define the response structure to type check our data
 interface SkillBreakdown {
@@ -321,6 +322,18 @@ export default function ScoresPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-[#38bdf8] to-[#818cf8] transition-all duration-300"></div>
             <div className="absolute inset-0 bg-gradient-to-r from-[#8b5cf6] to-[#ec4899] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </Link>
+        </div>
+
+        <div className="flex justify-center mb-6 md:mb-8">
+          <a href="https://coff.ee/anirbanbism" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+            <Image
+              src="/buy-me-a-coffee.png"
+              alt="Buy Me a Coffee"
+              width={200}
+              height={56}
+              className="max-w-full"
+            />
+          </a>
         </div>
       </main>
 
