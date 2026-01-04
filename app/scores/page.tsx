@@ -143,7 +143,7 @@ export default function ScoresPage() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Resume Analysis Results - ResumeAI",
+    "name": "Resume Analysis Results - HiringAI",
     "description": analysisData.summary,
     "logo": process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/resume-logo.svg` : "https://resume-ats-tracker.vercel.app/resume-logo.svg",
     "mainEntity": {
@@ -188,8 +188,8 @@ export default function ScoresPage() {
       <header className="container mx-auto px-4 py-6 relative z-10">
         <div className="flex items-center justify-between">
           <div className="text-white text-2xl font-bold font-founder-grotesk tracking-tight flex items-center">
-            <Link href="/" aria-label="ResumeAI Home" className="flex items-center">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">ResumeAI</span>
+            <Link href="/" aria-label="HiringAI Home" className="flex items-center">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">HiringAI</span>
             </Link>
           </div>
           <nav className="hidden md:flex items-center space-x-8">
@@ -359,12 +359,12 @@ export default function ScoresPage() {
                 </motion.span>
                 by rustix69
               </p>
-              <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} HiringAI. All rights reserved.</p>
             </div>
 
             {/* Medium and up screen layout */}
             <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
-              © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
+              © {new Date().getFullYear()} HiringAI. All rights reserved. Made with
               <motion.span
                 className="text-[#ec4899]"
                 animate={{ scale: [1, 1.2, 1] }}

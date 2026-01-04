@@ -11,13 +11,13 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "ResumeAI - Optimize Your Resume for ATS",
+  title: "HiringAI - Optimize Your Resume for ATS",
   description: "AI-powered resume analysis to help you pass ATS screenings and get more interviews.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://resume.rustix.in'),
   keywords: ["resume optimizer", "ATS tracker", "AI resume analysis", "job application tracker", "resume keywords", "interview success", "career tools"],
-  authors: [{ name: 'ResumeAI' }],
-  creator: 'ResumeAI',
-  publisher: 'ResumeAI',
+  authors: [{ name: 'HiringAI' }],
+  creator: 'HiringAI',
+  publisher: 'HiringAI',
   formatDetection: {
     email: false,
     address: false,
@@ -27,23 +27,23 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    title: 'ResumeAI - AI-Powered Resume ATS Tracker & Optimizer',
-    description: 'Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.',
-    siteName: 'ResumeAI',
+    title: 'HiringAI - AI-Powered Resume ATS Tracker & Optimizer',
+    description: 'Boost your job hunt with HiringAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.',
+    siteName: 'HiringAI',
     images: [
       {
         url: '/resume-logo.svg',
         width: 512,
         height: 512,
-        alt: 'ResumeAI - AI-Powered Resume ATS Tracker & Optimizer',
+        alt: 'HiringAI - AI-Powered Resume ATS Tracker & Optimizer',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ResumeAI - AI-Powered Resume ATS Tracker & Optimizer',
-    description: 'Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.',
-    creator: '@resumeai',
+    title: 'HiringAI - AI-Powered Resume ATS Tracker & Optimizer',
+    description: 'Boost your job hunt with HiringAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.',
+    creator: '@HiringAI',
     images: ['/resume-logo.svg'],
   },
   robots: {
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     canonical: '/',
     types: {
       'application/rss+xml': [
-        { url: '/rss/feed.xml', title: 'ResumeAI Blog RSS Feed' },
+        { url: '/rss/feed.xml', title: 'HiringAI Blog RSS Feed' },
       ],
     },
   },

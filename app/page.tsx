@@ -17,9 +17,9 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "ResumeAI - AI-Powered Resume ATS Tracker & Optimizer",
+    "name": "HiringAI - AI-Powered Resume ATS Tracker & Optimizer",
     "url": process.env.NEXT_PUBLIC_BASE_URL || "https://resume-ats-tracker.vercel.app",
-    "description": "Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
+    "description": "Boost your job hunt with HiringAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "All",
     "logo": process.env.NEXT_PUBLIC_BASE_URL ? `${process.env.NEXT_PUBLIC_BASE_URL}/resume-logo.svg` : "https://resume-ats-tracker.vercel.app/resume-logo.svg",
@@ -65,8 +65,8 @@ export default function Home() {
       <header className="container mx-auto px-4 py-6 relative z-10">
         <div className="flex items-center justify-between">
           <div className="text-white text-2xl font-bold font-founder-grotesk tracking-tight flex items-center">
-            <Link href="/" aria-label="ResumeAI Home" className="flex items-center">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">ResumeAI</span>
+            <Link href="/" aria-label="HiringAI Home" className="flex items-center">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#818cf8]">HiringAI</span>
             </Link>
           </div>
 
@@ -287,7 +287,7 @@ export default function Home() {
               </span>
             </h2>
             <p className="text-white/70 max-w-2xl mx-auto font-founder-grotesk text-sm md:text-base">
-              We're constantly improving ResumeAI with exciting new features to enhance your job search experience.
+              We're constantly improving HiringAI with exciting new features to enhance your job search experience.
             </p>
           </div>
 
@@ -381,7 +381,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <TestimonialCard
-              quote="After optimizing my resume with ResumeAI, I received callbacks from 3 companies within a week. The keyword analysis was incredibly helpful!"
+              quote="After optimizing my resume with HiringAI, I received callbacks from 3 companies within a week. The keyword analysis was incredibly helpful!"
               author="Sarah J."
               role="Software Engineer"
               rating={5}
@@ -415,12 +415,12 @@ export default function Home() {
                 </span>
                 by rustix69
               </p>
-              <p>© {new Date().getFullYear()} ResumeAI. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} HiringAI. All rights reserved.</p>
             </div>
 
             {/* Medium and up screen layout */}
             <p className="hidden md:flex text-white font-founder-grotesk text-sm items-center justify-center gap-2">
-              © {new Date().getFullYear()} ResumeAI. All rights reserved. Made with
+              © {new Date().getFullYear()} HiringAI. All rights reserved. Made with
               <span className="text-[#ec4899]">
                 ❤️
               </span>

@@ -1,7 +1,7 @@
 {
-  "name": "ResumeAI - AI-Powered Resume ATS Tracker & Optimizer",
-  "short_name": "ResumeAI",
-  "description": "Boost your job hunt with ResumeAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
+  "name": "HiringAI - AI-Powered Resume ATS Tracker & Optimizer",
+  "short_name": "HiringAI",
+  "description": "Boost your job hunt with HiringAI. Our AI-powered platform analyzes your resume against job descriptions to optimize keywords, track applications, and improve interview chances.",
   "icons": [
     {
       "src": "/resume-logo.svg",

@@ -2,11 +2,14 @@
  * API service for resume evaluation
  */
 
-export async function evaluateResume(resumeFile: File, jobDescription: string) {
+export async function evaluateResume(resumeFile: File, jobDescription: string, apiKey?: string) {
   try {
     const formData = new FormData();
     formData.append('resume', resumeFile);
     formData.append('jobDescription', jobDescription);
+    if (apiKey) {
+      formData.append('apiKey', apiKey);
+    }
     
     // Use the environment variable for the backend URL
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;

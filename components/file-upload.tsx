@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Upload, FileText, ArrowRight } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Upload, FileText, ArrowRight, Key, ExternalLink } from "lucide-react"
 import { ProcessingAnimation } from "@/components/processing-animation"
 import { evaluateResume } from "@/app/services/resume-api"
 import { toast } from "sonner"
@@ -16,6 +17,7 @@ export function FileUpload() {
   const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [jobDescription, setJobDescription] = useState("")
+  const [apiKey, setApiKey] = useState("")
   const [isProcessing, setIsProcessing] = useState(false)
   const [uploadStep, setUploadStep] = useState(0)
 
@@ -39,6 +41,11 @@ export function FileUpload() {
       return;
     }
 
+    if (!apiKey) {
+      toast.error("Please enter your Gemini API key");
+      return;
+    }
+
     setIsProcessing(true);
     setUploadStep(1);
 
@@ -51,7 +58,7 @@ export function FileUpload() {
       setTimeout(() => setUploadStep(3), 1000);
       
       // Call API - this is the long-running step
-      const result = await evaluateResume(file, jobDescription);
+      const result = await evaluateResume(file, jobDescription, apiKey);
       
       // Store result
       localStorage.setItem('resumeAnalysisResult', JSON.stringify(result));
@@ -85,6 +92,35 @@ export function FileUpload() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <label htmlFor="apiKey" className="block text-sm font-medium text-white/80 font-founder-grotesk">
+          Your Gemini API Key
+        </label>
+        <div className="relative">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2">
+            <Key className="w-4 h-4 text-white/50" />
+          </div>
+          <Input
+            id="apiKey"
+            type="password"
+            placeholder="Enter your Gemini API key..."
+            className="pl-10 bg-white/5 border-[#38bdf8]/30 focus:border-[#38bdf8] focus:ring-[#38bdf8] placeholder:text-white/30 text-white font-founder-grotesk"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            aria-label="Gemini API Key"
+          />
+        </div>
+        <a
+          href="https://aistudio.google.com/app/apikey"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1 text-xs text-[#38bdf8] hover:text-[#818cf8] transition-colors font-founder-grotesk mt-1"
+        >
+          <ExternalLink className="w-3 h-3" />
+          Get your free Gemini API key
+        </a>
+      </div>
+
       <div className="space-y-2">
         <label htmlFor="resume" className="block text-sm font-medium text-white/80 font-founder-grotesk">
           Upload Your Resume
